@@ -4,34 +4,34 @@
 #         self.val = val
 #         self.next = next
 class Solution:
-    def isPalindrome(self, head: Optional[ListNode]) -> bool:
-        #going to middle
+    def reverse(self,head):
+        if head==None or head.next==None:
+            return head
+        pre = head
+        current =head.next
+        while current:
+            next_node = current.next
+            current.next = pre
+            pre = current
+            current = next_node
+        head.next = None
+        return pre
+    def isPalindrome(self, head: ListNode) -> bool:
+        
+        if head==None or head.next==None:
+            return True
+        
         slow = fast = head
         while fast and fast.next:
             slow = slow.next
             fast = fast.next.next
         
-        reversedHalf = self.reverse(slow)
-        return self.areEqual(head,reversedHalf)
-            
-    def reverse(self,head):
-        curr = head
-        prev = None
+        slow = self.reverse(slow) 
+        fast = head
         
-        while curr:
-            nxt = curr.next
-            curr.next = prev
-            prev = curr
-            curr = nxt
-            
-        return prev
-            
-    def areEqual(self,first,second):
-        while first and second:
-            if first.val != second.val:
+        while slow!=None:
+            if slow.val!=fast.val:
                 return False
-            first = first.next
-            second = second.next
-            
-            
+            slow=slow.next
+            fast=fast.next
         return True
