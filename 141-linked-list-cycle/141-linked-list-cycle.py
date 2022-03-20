@@ -7,15 +7,14 @@
 class Solution:
     def hasCycle(self, head: Optional[ListNode]) -> bool:
         #tortoise and hare algorithm
-        if head == None:
+        if head == None or head.next == None:
             return False
         
-        slow = ListNode(0,head)
-        fast = head
+        slow = fast = head
         while fast != None and fast.next != None:
-            if slow == fast:
-                return True
-            
             slow = slow.next
             fast = fast.next.next
+            
+            if slow == fast:
+                return True
         return False
