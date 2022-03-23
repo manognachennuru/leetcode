@@ -8,22 +8,14 @@ class Solution:
     def deleteNode(self, root: Optional[TreeNode], key: int) -> Optional[TreeNode]:
         if root == None:
             return None
-        return self.helper(root,key)
-    
-    def find_min(self,root):
-        if root.left:
-            return self.find_min(root.left)
-        else:
-            return root.val
         
-    def helper(self,root,key):
         if key < root.val:
             if root.left:
-                root.left = self.helper(root.left,key)
+                root.left = self.deleteNode(root.left,key)
 
         elif key > root.val:
             if root.right:
-                root.right = self.helper(root.right,key)
+                root.right = self.deleteNode(root.right,key)
 
         else:
             if root.left == None and root.right == None:
@@ -35,9 +27,14 @@ class Solution:
             else:
                 min_val = self.find_min(root.right)
                 root.val = min_val
-                root.right = self.helper(root.right,min_val)
-        return root
+                root.right = self.deleteNode(root.right,min_val)
+        return root  
+    
+    def find_min(self,root):
+        if root.left:
+            return self.find_min(root.left)
+        else:
+            return root.val
         
-            
         
             
