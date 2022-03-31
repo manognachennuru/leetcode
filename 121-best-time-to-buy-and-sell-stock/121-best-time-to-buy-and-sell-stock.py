@@ -1,14 +1,13 @@
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
-        #checking time for code found in solutions
-        left = 0 #Buy
-        right = 1 #Sell
-        max_profit = 0
-        while right < len(prices):
-            currentProfit = prices[right] - prices[left] #our current Profit
-            if prices[left] < prices[right]:
-                max_profit =max(currentProfit,max_profit)
+        #from solutions - checking time taken
+        if len(prices) == 0:
+            return 0	
+        maxprofit = 0
+        sofarMin = prices[0]
+        for i in range(0,len(prices)):
+            if prices[i] > sofarMin:
+                maxprofit = max(maxprofit, prices[i] - sofarMin)
             else:
-                left = right
-            right += 1
-        return max_profit
+                sofarMin = prices[i]
+        return maxprofit
