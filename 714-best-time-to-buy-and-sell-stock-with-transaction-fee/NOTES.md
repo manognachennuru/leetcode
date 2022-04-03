@@ -1,7 +1,13 @@
  reference :- ​https://leetcode.com/discuss/study-guide/1490172/Dynamic-programming-is-simple
  
  Iterative, bottom up solution with a dp table.
- 
+
+
+
+
+code:
+
+
 class Solution:
     def maxProfit(self, prices: List[int], fee: int) -> int:
         dp = [[0, 0] for _ in range(len(prices) + 1)]
