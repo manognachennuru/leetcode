@@ -7,7 +7,7 @@
 
 code:
 
-
+```
 class Solution:
     def maxProfit(self, prices: List[int], fee: int) -> int:
         dp = [[0, 0] for _ in range(len(prices) + 1)]
@@ -28,3 +28,4 @@ class Solution:
                 dp[pos][bought] = max_profit
 
         return dp[0][False]
+```
