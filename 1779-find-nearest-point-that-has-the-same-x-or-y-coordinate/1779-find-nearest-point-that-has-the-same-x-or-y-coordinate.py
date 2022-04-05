@@ -5,7 +5,6 @@ class Solution:
         
         md = 10000
         index = len(points)
-        manhattan = [10000, len(points)]
         
         for i,point in enumerate(points):
             if x != point[0] and y != point[1]:
@@ -16,7 +15,7 @@ class Solution:
                 md = curr
                 index = i
             
-            elif curr == manhattan[0]:
+            elif curr == md:
                 #check if index is lesser
                 index = min(i,index)
             
