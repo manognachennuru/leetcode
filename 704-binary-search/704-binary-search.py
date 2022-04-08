@@ -1,19 +1,16 @@
 class Solution:
-    def search(self, nums: List[int], target: int) -> int:
-        #binary search o(log n) - solution - 
-        #trying recursive approach
-        def helper(low,high):
-            while low <= high:
-                mid = low + (high - low)//2
-                if nums[mid] == target:
-                    return mid
-                if nums[mid] > target:
-                    return helper(low,mid - 1)
-                else:
-                    return helper(mid+1,high)
+    def helper(self,nums,target,low,high):
+        if low > high:
             return -1
+        mid = low + (high - low)//2
+        if nums[mid] == target:
+            return mid
+        if nums[mid] > target:
+            return self.helper(nums,target,low,mid - 1)
+        else:
+            return self.helper(nums,target,mid+1,high)
     
-        low = 0
-        high = len(nums) - 1
-        return helper(low,high)
+    def search(self, nums: List[int], target: int) -> int: 
+        return self.helper(nums,target,0,len(nums)-1)
         
+    
