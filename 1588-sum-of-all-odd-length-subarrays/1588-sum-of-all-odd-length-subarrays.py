@@ -1,10 +1,12 @@
 class Solution:
-    #brute force
+    #brute force - using prefix sum to find sumNLengthSubarrays
     def sumNLengthSubarrays(self,arr,n):
-        sm = 0
-        for i in range(0,len(arr)-n+1):
-            sm += sum(arr[i:i+n])
-        return sm
+        total = sm = sum(arr[0:n])
+        for i in range(1,len(arr)-n+1):
+            sm -= arr[i-1]
+            sm += arr[i+n-1]
+            total += sm
+        return total
         
     def sumOddLengthSubarrays(self, arr: List[int]) -> int:
         result = 0
