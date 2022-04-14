@@ -5,19 +5,20 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def sumOfLeftLeaves(self, root: Optional[TreeNode]) -> int:
+    def sumOfLeftLeaves(self, root: Optional[TreeNode], isLeft = False) -> int:
         if root == None:
             return 0
         
+        if root.left == None and root.right == None and isLeft == True:
+            return root.val
+        
         sm = 0
-        if root.left != None: 
-            #left node exists, check if it is a leaf node
-            if root.left.left == None and root.left.right == None:
-                sm += root.left.val
         
         #check for subtrees
-        sm += self.sumOfLeftLeaves(root.left)
-        sm += self.sumOfLeftLeaves(root.right)
+        if root.left:
+            sm += self.sumOfLeftLeaves(root.left,True)
+        if root.right:
+            sm += self.sumOfLeftLeaves(root.right,False)
         
         return sm
     
