@@ -1,18 +1,19 @@
 class Solution:
     def isHappy(self, n: int) -> bool:
         seen = set()
-        
-        while n != 1:
-            current = n
-            Sum = 0
-            #check sum of squares of n
-            while current != 0:
-                current,d = divmod(current,10)
-                Sum += d**2
+        while n not in seen:
+            seen.add(n)
+            n = self.sumOfSquares(n)
+            if n == 1:
+                return True
+        return False
+    
+    def sumOfSquares(self,n):
+        Sum = 0
+        #check sum of squares of n
+        while n != 0:
+            n,d = divmod(n,10)
+            Sum += d**2
+        return Sum
                 
-            if Sum in seen:
-                return False
             
-            seen.add(Sum)
-            n = Sum
-        return True
