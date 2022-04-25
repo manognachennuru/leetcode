@@ -1,15 +1,18 @@
 class Solution:
     def isHappy(self, n: int) -> bool:
-        s = set()
+        seen = set()
         
         while n != 1:
-            result = 0
+            current = n
+            Sum = 0
             #check sum of squares of n
-            while n != 0:
-                n,d = divmod(n,10)
-                result += d**2
-            if result in s:
+            while current != 0:
+                current,d = divmod(current,10)
+                Sum += d**2
+                
+            if Sum in seen:
                 return False
-            s.add(result)
-            n = result
+            
+            seen.add(Sum)
+            n = Sum
         return True
