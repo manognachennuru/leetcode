@@ -4,13 +4,13 @@ class Solution:
         l2 = len(w2)
         i,j = 0,0
         output = []
-        while True:
-            if i<l1:
-                output.append(w1[i])
-                i += 1
-            if j<l2:
-                output.append(w2[j])
-                j += 1
-            if i == l1 and j == l2:
-                break
+        while i < l1 and j < l2:
+            output.append(w1[i])
+            output.append(w2[j])
+            i += 1    
+            j += 1
+        
+        output.append(w1[i:])
+        output.append(w2[j:])
+        
         return ''.join(output)
