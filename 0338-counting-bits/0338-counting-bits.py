@@ -10,5 +10,8 @@ class Solution:
     def countBits(self, n: int) -> List[int]:
         result = [0]* (n+1)
         for i in range(0, n+1):
+            if i % 2 != 0:
+                #if odd
+                result[i] = result[i-1] + 1
             result[i] = self.helper(i)
         return result 
