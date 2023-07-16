@@ -13,5 +13,6 @@ class Solution:
             if i % 2 != 0:
                 #if odd
                 result[i] = result[i-1] + 1
-            result[i] = self.helper(i)
+            else:
+                result[i] = self.helper(i)
         return result 
