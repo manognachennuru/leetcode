@@ -5,8 +5,8 @@ class Solution:
 
         #used for inorder to not-miss the trailing zeroes
         for _ in range(0,32):
-            d = n % 2
-            rev = rev*2 + d
+            # n & 1 gives last bit
+            rev = rev << 1 | (n & 1)
             n = n >> 1
         
         return rev
