@@ -4,7 +4,7 @@ class Solution:
         def helper(arr):
             #base case
             if len(arr) == 1:
-                return [arr.copy()]
+                return [arr[:]]
             
             perm = []
             temp = arr.copy()
