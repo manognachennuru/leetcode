@@ -1,30 +1,32 @@
-class UnionFind:
-    def __init__(self,size):
-        n = size
-        self.root = [0]*n
-        for i in range(len(self.root)):
-            self.root[i] = i
-        
-    def find(self, x):
-        if x == self.root[x]:
-            return x
-        self.root[x] = self.find(self.root[x])
-        return self.root[x]
-        
-    def union(self, x, y):
-        rootX = self.find(x)
-        rootY = self.find(y)
-        self.root[rootX] = rootY
-        return
-        
-    def isConnected(self, x, y):
-        return self.find(x) == self.find(y)
-    
-    
 class Solution:
     def validPath(self, n: int, edges: List[List[int]], source: int, destination: int) -> bool:
-        uf = UnionFind(n)
+        #let's try doing dfs
+        #create an adjacency list first
+        adj_lis = defaultdict(list)
         for edge in edges:
-            uf.union(edge[0], edge[1])
+            a,b = edge
+            adj_lis[a].append(b)
+            adj_lis[b].append(a)
         
-        return uf.isConnected(source, destination)
+        stack = []
+        stack.append(source)
+        seen = set()
+        
+        while stack:
+            node = stack.pop()
+            
+            if node == destination:
+                return True
+            
+            if node in seen:
+                continue
+            seen.add(node)           
+
+            for neighbor in adj_lis[node]:
+                stack.append(neighbor)
+                
+        return False
+            
+            
+            
+                
