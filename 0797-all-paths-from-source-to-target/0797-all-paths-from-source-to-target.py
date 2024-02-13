@@ -1,25 +1,37 @@
-
 class Solution:
     def allPathsSourceTarget(self, graph: List[List[int]]) -> List[List[int]]:
-        #ok, let's do dfs
-        #no need to monitor visited as the graph is directed
-        #it is tough to do iteratively. You need to keep track of path at each step
+        #dfs - recursive
+        #input is similar to adjacency list, no need to change
+        def dfs(stack, paths, path):
+            while stack:
+                node = stack.pop()
+                path.append(node)
+
+                if node == (n-1):
+                    #found path
+                    paths.append(path.copy())
+                    continue
+
+                neighbors = graph[node]
+                for neighbor in neighbors:
+                    stack.append(neighbor)
+                    dfs(stack, paths, path)
+                    path.pop()
+
+                #print(stack, paths, path)
+            return 
         
-        n = len(graph)
         stack = []
-        stack.append((0, [0]))
-        
-        allPaths = []
+        paths = []
         path = []
+        n = len(graph)
+        stack.append(0)
+        dfs(stack, paths, path)
+        return paths
         
-        while stack:
-            node,path = stack.pop()
+        
             
-            if node == n-1:
-                #found a path
-                allPaths.append(path[:])
-            
-            for neighbor in graph[node]:
-                stack.append((neighbor, path + [neighbor]))
                 
-        return allPaths
+                
+        
+        
