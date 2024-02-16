@@ -9,50 +9,25 @@ class Node:
 from typing import Optional
 class Solution:
     def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:
-        #how do i clone a graph
-        #dfs - go to all nodes, create a node 
-        #for neighbor in neighbors, create an edge, call dfs on that neighbor
+        #hashmap with old and new nodes
+        #dfs, create clone if it's not in hashmap, 
+        #add edges while doing dfs
         
-#         printed = set()
-#         def displayGraph(node):
-#             if node in printed:
-#                 return
-#             printed.add(node)
-#             print(node.val)
-#             for neighbor in node.neighbors:
-#                 print("--> ", neighbor.val)
-#             for neighbor in node.neighbors:
-#                 displayGraph(neighbor)
-                
-        seen = {}
-        def dfs(snode, tnode):
-            seen[tnode.val] = tnode
+        dic = {}
+        
+        def dfs(node):
+            if node == None:
+                return
+            if node in dic:
+                return dic[node]
+            clone_node = Node(node.val)
+            dic[node] = clone_node
             
-            sneighbors = snode.neighbors
-            for sneighbor in sneighbors:
-                if seen.get(sneighbor.val):
-                    #neighbor already seen
-                    tneighbor = seen[sneighbor.val]
-                    tnode.neighbors.append(tneighbor)
-                    #tneighbor.neighbors.append(tnode)
-                
-                    continue
-                    
-                tneighbor = Node(sneighbor.val)
-                tnode.neighbors.append(tneighbor)
-                #tneighbor.neighbors.append(tnode)
-                
-                dfs(sneighbor, tneighbor)
-         
+            for nei in node.neighbors:
+                clone_nei = dfs(nei)
+                clone_node.neighbors.append(clone_nei)
+            
+            return clone_node
         
-        if node == None:
-            return None
-        
-        tnode = Node(node.val)
-        dfs(node, tnode)
-        # print("printing node")
-        # displayGraph(node)
-        # print("printing tnode")
-        # displayGraph(tnode)
-        
-        return tnode
+        n = dfs(node)
+        return n
