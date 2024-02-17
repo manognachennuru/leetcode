@@ -8,12 +8,13 @@ class Solution:
             adj_lis[a].append(b)
             adj_lis[b].append(a)
         
-        stack = []
-        stack.append(source)
+        import collections
+        q = deque()
+        q.append(source)
         seen = set()
         
-        while stack:
-            node = stack.pop()
+        while q:
+            node = q.popleft()
             
             if node == destination:
                 return True
@@ -23,7 +24,7 @@ class Solution:
             seen.add(node)           
 
             for neighbor in adj_lis[node]:
-                stack.append(neighbor)
+                q.append(neighbor)
                 
         return False
             
