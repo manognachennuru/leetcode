@@ -10,35 +10,21 @@ class Node:
 
 class Solution:
     def connect(self, root: 'Optional[Node]') -> 'Optional[Node]':
-        #can't do with dfs, use bfs
-        #level order traversal and find out each level 
-        if not root:
-            return root
-        q = deque()
-        q.append(root)
-        root.next =  None
+        #use next pointer of parent to connect children
         
-        while True: #break it when you're done with all nodes
-            currLevel = deque() #store current level
+        cur = root
+        nxt = root.left if root else None
+        
+        while cur and nxt:
+            cur.left.next = cur.right
+            if cur.next:
+                cur.right.next = cur.next.left
             
-            while q:
-                #print([x.val for x in q])
-                node = q.popleft()
-                if node.left and node.right:
-                    currLevel.append(node.left)
-                    currLevel.append(node.right)
-                
-            #no elements in currLevel
-            if len(currLevel) == 0:
-                break
-                
-            #now we found currLevel
-            for i in range(len(currLevel)-1):
-                #point to next
-                currLevel[i].next = currLevel[i+1]
-                
-            q = q + currLevel.copy()
-            currLevel[-1].next = None
+            cur = cur.next
+            if not cur:
+                cur = nxt
+                nxt = cur.left
+            
         
         return root
 
