@@ -13,33 +13,22 @@ class Solution:
             return []
         
         q = deque()
-        seen = set()
         result = []
         
         q.append(root)
-        seen.add(root)
-        result.append([root.val])
         
-        while True: #make sure to break
+        while q:
             curLevel = []
+            length = len(q)
             
-            while q:
+            for i in range(0, length):
                 node = q.popleft() #always popleft for queue
-                
-                for c in node.children:
-                    if c not in seen and c != None:
-                        curLevel.append(c)
-                        seen.add(c)
-            
-            #no nodes in this level
-            if len(curLevel) == 0:
-                break
-            
-            #we have one level in curLevel
-            result.append(list([c.val for c in curLevel]))
-            
-            #now add curLevel to q
-            q.extend(curLevel)
+
+                q.extend(node.children)
+                curLevel.append(node.val)
+             
+            result.append(curLevel.copy())
+            curLevel = []
                     
         return result
                     
