@@ -33,21 +33,12 @@ class Solution:
         result = 0
         count = 0 # to count number of edges
         Wedge = defaultdict(list)
-        vertextoNum = {}
         num = 0
         
         for i in range(0, len(points)-1):
             for j in range(i+1, len(points)):                    
                 xi, yi = points[i]
                 xj, yj = points[j]
-                
-                if tuple(points[i]) not in vertextoNum:
-                    vertextoNum[tuple(points[i])] = num
-                    num += 1
-                    
-                if tuple(points[j]) not in vertextoNum:
-                    vertextoNum[tuple(points[j])] = num
-                    num += 1    
                 
                 weight = abs(xi-xj) + abs(yi-yj)
                 Wedge[weight].append((points[i], points[j]))
@@ -60,9 +51,9 @@ class Solution:
                 pointA, pointB = edge
                 
                 #if it isn't forming a cycle
-                if not uf.isConnected(vertextoNum[tuple(pointA)], vertextoNum[tuple(pointB)]):
+                if not uf.isConnected(points.index(pointA), points.index(pointB)):
                     #add edge to disjoint set
-                    uf.union(vertextoNum[tuple(pointA)], vertextoNum[tuple(pointB)])
+                    uf.union(points.index(pointA), points.index(pointB))
                     
                     #add weight to result
                     #print("adding edge = (",pointA, pointB,") and the weight is", weight)
