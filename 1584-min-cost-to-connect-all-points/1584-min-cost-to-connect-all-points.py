@@ -45,35 +45,39 @@ class Solution:
         result = 0
         count = 0 # to count number of edges
         pq = []
-        num = 0
+        visited = [False]*n
         
-        for i in range(0, n-1):
-            for j in range(i+1, n):                    
-                xi, yi = points[i]
-                xj, yj = points[j]
-                
-                weight = abs(xi-xj) + abs(yi-yj)
-                
-                edge = Edge(i, j, weight)
-                pq.append(edge)
+        #add all edges from vertex 0
+        x1, y1 = points[0]
+        for j in range(1, n):
+            #calculate distance to all vertices
+            x2, y2 = points[j]
+            weight = abs(x1-x2) + abs(y1-y2)
+
+            edge = Edge(0, j, weight)
+            pq.append(edge)
                 
         # Convert pq into a heap.
         heapq.heapify(pq)
-         
+        
+        visited[0] = True
+        
         while pq and count != (n-1):
-                edge = heapq.heappop(pq)
+            edge = heapq.heappop(pq)
+            point1 = edge.point1
+            point2 = edge.point2
+            weight = edge.weight
+            if not visited[point2]:
+                result += weight
+                visited[point2] = True
+                for j in range(n):
+                    if not visited[j]:
+                        distance = abs(points[point2][0] - points[j][0]) + \
+                                   abs(points[point2][1] - points[j][1])
+                        heapq.heappush(pq, Edge(point2, j, distance))
+                count += 1
                 
-                #if it isn't forming a cycle
-                if not uf.isConnected(edge.point1, edge.point2):
-                    #add edge to disjoint set
-                    uf.union(edge.point1, edge.point2)
-                    
-                    #add weight to result
-                    result += edge.weight
-                    count += 1
-        
         return result
-        
                 
                 
             
