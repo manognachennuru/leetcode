@@ -1,38 +1,36 @@
+from collections import defaultdict, deque
 class Solution:
-    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
-        
-        #topological sorting, need to use a queue, and might need a minheap
-        
-        #shall we create an adjacency list for the DAG
-        
-        adj = [[] for _ in range(numCourses)]
-        indegree = [0 for _ in range(numCourses)]
-        
+    #testing editorial solution !!!!!!!
+    
+    def findOrder(self, numCourses, prerequisites):
+        # Prepare the graph
+        adj_list = defaultdict(list)
+        indegree = {}
         for dest, src in prerequisites:
-            adj[src].append(dest)
-            
-            indegree[dest] += 1
-        
-        
-        #print("initial adj = ", adj)
-        #print("initial indegree = ", indegree)
-        
-        queue = deque([k for k in range(numCourses) if indegree[k] == 0])
-        #print("initial queue = ", queue)
-        result = []
-        
-        while queue:
-            node = queue.popleft()
-            result.append(node)
-            
+            adj_list[src].append(dest)
+
+            # Record each node's in-degree
+            indegree[dest] = indegree.get(dest, 0) + 1
+
+        # Queue for maintainig list of nodes that have 0 in-degree
+        zero_indegree_queue = deque([k for k in range(numCourses) if k not in indegree])
+
+        topological_sorted_order = []
+
+        # Until there are nodes in the Q
+        while zero_indegree_queue:
+
+            # Pop one node with 0 in-degree
+            vertex = zero_indegree_queue.popleft()
+            topological_sorted_order.append(vertex)
+
             # Reduce in-degree for all the neighbors
-            for neighbor in adj[node]:
-                indegree[neighbor] -= 1
+            if vertex in adj_list:
+                for neighbor in adj_list[vertex]:
+                    indegree[neighbor] -= 1
 
-                # Add neighbor to Q if in-degree becomes 0
-                if indegree[neighbor] == 0:
-                    queue.append(neighbor)
+                    # Add neighbor to Q if in-degree becomes 0
+                    if indegree[neighbor] == 0:
+                        zero_indegree_queue.append(neighbor)
 
-        return result if len(result) == numCourses else []
-                
-        
+        return topological_sorted_order if len(topological_sorted_order) == numCourses else []
