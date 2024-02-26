@@ -1,32 +1,28 @@
 class Solution:
-    #testing editorial solution..
-    
-    def dfs(self, node, adj, visit, inStack):
-        # If the node is already in the stack, we have a cycle.
-        if inStack[node]:
-            return True
-        if visit[node]:
-            return False
-        # Mark the current node as visited and part of current recursion stack.
-        visit[node] = True
-        inStack[node] = True
-        for neighbor in adj[node]:
-            if self.dfs(neighbor, adj, visit, inStack):
-                return True
-        # Remove the node from the stack.
-        inStack[node] = False
-        return False
-
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        #now try top sort using BFS (Kahn's algorithm) (uses in degree concept)
+    
+        #create adj list
         adj = [[] for _ in range(numCourses)]
-        for prerequisite in prerequisites:
-            adj[prerequisite[1]].append(prerequisite[0])
+        indegree = [0 for _ in range(numCourses)]
+        for a, b in prerequisites:
+            adj[b].append(a)
+            indegree[a] += 1
+        
+        visited = set()
+        q = deque()
 
-        visit = [False] * numCourses
-        inStack = [False] * numCourses
-        for i in range(numCourses):
-            if self.dfs(i, adj, visit, inStack):
-                return False
-        return True
-            
-            
+        #in the queue, we need all nodes with indegree 0
+        q.extend([k for k in range(0,len(indegree)) if indegree[k] == 0])
+
+        while q:
+            node = q.popleft()
+            visited.add(node)
+            for nei in adj[node]:
+                #decrease in degree
+                indegree[nei] -= 1
+                if indegree[nei] == 0:
+                    #add to queue
+                    q.append(nei)
+
+        return len(visited) == numCourses
